@@ -31,7 +31,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) navigate("/");
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     setFormData(initialFormState);
@@ -86,7 +86,7 @@ const Login = () => {
   ) : (
     <div className="min-h-screen flex items-center justify-center bg-white text-black">
       <div className="max-w-md w-full p-6 border rounded-md shadow-md bg-white text-black">
-        <form onSubmit={handleSubmit} onChange={handleChange}>
+        <form onSubmit={handleSubmit}>
           <h2 className="font-semibold text-4xl mx-auto w-max mb-4">
             {isSignup ? "Register" : "Log In"} to PennyTrail
           </h2>
@@ -103,6 +103,7 @@ const Login = () => {
                 value={formData.name}
                 required
                 className={inputClassName}
+                onChange={handleChange}
               />
             </div>
           )}
@@ -118,6 +119,7 @@ const Login = () => {
               value={formData.email}
               required
               className={inputClassName}
+              onChange={handleChange}
             />
           </div>
 
@@ -132,6 +134,7 @@ const Login = () => {
               value={formData.password}
               required
               className={inputClassName}
+              onChange={handleChange}
             />
           </div>
 
@@ -147,6 +150,7 @@ const Login = () => {
                 value={formData.confirmPassword}
                 required
                 className={inputClassName}
+                onChange={handleChange}
               />
             </div>
           )}

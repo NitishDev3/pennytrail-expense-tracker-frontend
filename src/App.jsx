@@ -24,6 +24,7 @@ function App() {
         dispatch(setUser(response.data));
       } catch (error) {
         const message = error.response?.data?.message || "Network Error";
+        if(message === "Unauthorized") return;
         dispatch(setToastInfo(message));
       } finally {
         setLoading(false);
@@ -39,20 +40,19 @@ function App() {
 
     const timer = setTimeout(() => dispatch(setToastInfo(null)), 2000);
     return () => clearTimeout(timer);
-  }, [toast, dispatch]);
+  }, [toast]);
 
   if (loading) return <Loading />;
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      {/* Toast Notification */}
+      
       {toast && (
-        <div className="bg-green-100 border z-10 border-green-400 text-green-700 px-4 py-3 rounded absolute top-4 left-1/2 transform -translate-x-1/2 mb-4 shadow-md" role="alert">
+        <div className="bg-green-100 border z-10 border-green-400 text-green-700 px-4 py-3 rounded absolute top-4 left-1/2 transform -translate-x-1/2 mb-4 shadow-md"
+          role="alert">
           <strong className="font-bold">{toast}</strong>
         </div>
       )}
-
-      {/* Routes */}
       <BrowserRouter>
         <Routes>
           <Route

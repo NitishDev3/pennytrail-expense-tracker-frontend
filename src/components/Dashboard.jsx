@@ -1,18 +1,42 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Navbar from './Navbar';
 import PieChartContainer from './PieChartContainer';
 import BarGraphContainer from './BarGraphContainer';
 import ExpenseDetailedView from './ExpenseDetailedView';
+import axios from 'axios';
+import { API_URL } from '../utils/constants';
+import { setExpenseData } from '../store/expenseSlice';
+import Loading from './Loading';
 
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
+  const expenseData = useSelector((state) => state.expense.expenseData);
+
+  const dispatch = useDispatch();
+  // console.log(expenseData);
 
   const [showAnalytics, setShowAnalytics] = useState(true);
 
-  return (
+  const fetchExpenseData = async () => {
+    try {
+      const data = await axios.get(API_URL + "/expense/get", { withCredentials: true })
+      // console.log(data);
+      dispatch(setExpenseData(data.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchExpenseData();
+  }, [])
+
+
+  //TODO: Loading setup correctly
+  return !expenseData ? <Loading /> : (
     <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-50 text-gray-800">
       <Navbar />
 
